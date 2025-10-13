@@ -23,6 +23,7 @@ class Node{
 };
 
 class List{
+  public:
   Node*head;
   Node*tail;
 
