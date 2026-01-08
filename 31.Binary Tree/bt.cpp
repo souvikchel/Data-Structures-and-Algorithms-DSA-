@@ -136,6 +136,36 @@ int sum(Node* root){
   return currSum;
 
 }
+
+int diam1(Node* root){
+  if(root==NULL){
+    return 0;
+  }
+
+  int currDiam=height(root->left)+height(root->right)+1;//O(n)
+  int leftDiam=diam1(root->left);
+  int rightDiam=diam1(root->right);
+
+  return max(currDiam,max(leftDiam,rightDiam));
+}
+
+
+pair<int,int> diam2(Node* root){//O(n)
+  if(root==NULL){
+    return make_pair(0,0);
+  }
+
+
+  pair<int,int> leftInfo=diam2(root->left);//LD,LH
+  pair<int,int> rightInfo=diam2(root->right);//RD,RH
+
+  int currDiam=leftInfo.second+rightInfo.second+1;
+  int finalDiam=max(currDiam,max(leftInfo.first,rightInfo.first));
+  int finalHt=max(leftInfo.second,rightInfo.second)+1;
+
+  return make_pair(finalDiam,finalHt);
+
+}
 int main(){
   vector<int> nodes={1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
   Node* root=buildTree(nodes);//1
@@ -153,7 +183,7 @@ int main(){
 
  //levelOrder(root);
  //cout<<"height : "<<height(root)<<endl;
- cout<<"Count : "<<count(root)<<endl;
+ /*cout<<"Count : "<<count(root)<<endl;
 
  Node* root2=new Node(5);
  root2->left=new Node(3);
@@ -161,7 +191,9 @@ int main(){
 
  cout<<"Count : "<<count(root2)<<endl;
 
- cout<<"sum of nodes : "<<sum(root)<<endl;
+ cout<<"sum of nodes : "<<sum(root)<<endl;*/
+
+ cout<<"diameter : "<<diam2(root).first<<endl;
 
   return 0;
 }
