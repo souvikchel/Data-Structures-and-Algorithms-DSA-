@@ -2,6 +2,7 @@
 #include<vector>
 #include<queue>
 #include<list>
+#include<stack>
 using namespace std;
 
 class Graph{
@@ -221,6 +222,69 @@ void printAllPaths(int src,int dest){
   pathHelperr(src,dest,vis,path);
 }
 
+void topoHelper(int src,vector<bool>& vis,stack<int> &s){
+
+  vis[src]=true;
+  list<int> neigh=l[src];
+  for(int v: neigh){
+    if(!vis[v]){
+      topoHelper(v,vis,s);
+    }
+  }
+  s.push(src);
+
+}
+
+void topoSort(){
+  vector<bool> vis(V,false);
+  stack<int> s;
+
+  for(int i=0;i<V;i++){
+    if(!vis[i]){
+      topoHelper(i,vis,s);
+    }
+  }
+
+  while(s.size()>0){
+    cout<<s.top()<<" ";
+    s.pop();
+  }
+  cout<<endl;
+}
+
+void calcIndegree(vector<int>& Indeg){
+  for(int u=0;u<V;u++){
+    list<int> neigh=l[u];
+    for(int v: neigh){
+      Indeg[v]++;
+    }
+  }
+}
+
+void topoSort2(){
+  vector<int> Indeg(V,0);
+  calcIndegree(Indeg);
+  queue<int> q;
+  for(int i=0;i<V;i++){
+    if(Indeg[i]==0){
+      q.push(i);
+    }
+  }
+  while(q.size()>0){
+    int curr=q.front();
+    q.pop();
+    cout<<curr<<" ";
+    list<int> neigh=l[curr];
+    for(int v : neigh){
+      Indeg[v]--;
+      if(Indeg[v]==0){
+        q.push(v);
+      }
+    }
+  }
+  cout<<endl;
+}
+
 
 };
 
@@ -263,7 +327,7 @@ int main(){
   graph.addEdge(0,3);
   //graph.addEdge(3,0);
 
-  cout<<graph.isBipartite()<<endl;*/
+  cout<<graph.isBipartite()<<endl;
 
   Graph graph(6,false);
   graph.addEdge(0,3);
@@ -274,7 +338,19 @@ int main(){
   graph.addEdge(5,0);
   graph.addEdge(5,2);
 
-  graph.printAllPaths(5,1);
+  graph.printAllPaths(5,1);*/
+
+  Graph graph(6,false);
+  
+  graph.addEdge(2,3);
+  graph.addEdge(3,1);
+  graph.addEdge(4,0);
+  graph.addEdge(4,1);
+  graph.addEdge(5,0);
+  graph.addEdge(5,2);
+
+  graph.topoSort();
+  graph.topoSort2();
 
   return 0;
 }
