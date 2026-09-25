@@ -11,7 +11,7 @@ void firstNonRepeat(string str){//O(n) O(n)
     Q.push(ch);
     freq[ch-'a']++;
 
-    while(!Q.empty()&& freq[Q.front()-'a']00>1){
+    while(!Q.empty()&& freq[Q.front()-'a']>1){
       Q.pop();
     }
 

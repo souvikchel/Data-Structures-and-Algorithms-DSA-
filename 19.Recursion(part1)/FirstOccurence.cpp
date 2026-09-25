@@ -27,6 +27,30 @@ int lastOccur(vector<int>arr,int target,int i){
         return idxfound;
     }
 
+    #include <iostream>
+using namespace std;
+
+int main() {
+    int arr[] = {1, 2, 3, 2, 4, 2};
+    int n = 6;
+    int target = 2;
+
+    int first = -1, last = -1;
+
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == target) {
+            if (first == -1) {
+                first = i;
+            }
+            last = i;
+        }
+    }
+
+    cout << "First occurrence: " << first << endl;
+    cout << "Last occurrence: " << last << endl;
+
+    return 0;
+}
 
 
 int main(){
